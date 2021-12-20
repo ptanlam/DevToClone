@@ -1,0 +1,37 @@
+<div class="container" fxLayout="column" fxLayoutAlign="center center">
+  <h1>Join us 🎉</h1>
+
+  <form [formGroup]="form" (submit)="login.emit()" fxLayout="column" fxLayoutGap="2rem">
+    <label for="email" class="form-field">
+      <p>Email:</p>
+      <input nbInput type="email" id="email" fullWidth 
+        formControlName="email" fieldSize="large" 
+        [status]="validateEmail() ? 'danger' : 'basic'"/>
+      <span *ngIf="validateEmail()" class="danger-txt">
+        Please enter your email.
+      </span>
+    </label>
+
+    <label for="password" fxLayout="column" class="form-field"> 
+      <p>Password:</p> 
+      <nb-form-field>
+        <input nbInput type="password" id="password" fullWidth 
+          formControlName="password" fieldSize="large"
+          [status]="validatePassword() ? 'danger' : 'basic'"  />
+      </nb-form-field>
+      <span *ngIf="validatePassword()" class="danger-txt">
+        Please enter your password.
+      </span>
+      </label>
+    
+    <p>You don't have any account? Click 
+      <a routerLink="/auth/register" style="text-decoration: none;">here</a>
+      to register.
+    </p>
+
+    <button nbButton status="primary" hero [nbSpinner]="logging" >
+      Login
+    </button>
+  </form>
+</div>
+

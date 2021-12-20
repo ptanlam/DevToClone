@@ -1,0 +1,15 @@
+.container {
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.logo {
+  background-color: #222b45;
+  color: whitesmoke;
+  padding: 5px 10px;
+  border-radius: 5px;
+  letter-spacing: -2px;
+
+  cursor: pointer;
+  margin: 0;
+}

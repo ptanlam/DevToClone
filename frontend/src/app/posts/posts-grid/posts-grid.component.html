@@ -1,0 +1,14 @@
+<nb-spinner *ngIf="!list"></nb-spinner>
+
+<div *ngIf="list" fxLayout="column" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutAlign="space-between" >
+    <h1 style="margin: 0;">Posts</h1>
+  </div>
+
+  <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="fetchNextList.emit()" 
+    fxLayout="column" fxLayoutGap="10px">
+    <nb-list-item *ngFor="let post of list">
+      <fm-post-card [post]="post"></fm-post-card>
+    </nb-list-item>
+  </nb-list>
+</div>

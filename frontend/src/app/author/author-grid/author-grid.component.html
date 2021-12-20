@@ -1,0 +1,11 @@
+<div fxLayout="column" fxLayoutGap="20px">
+  <fm-author-banner *ngIf="author" [author]="author" [isUser]="isUser || false">
+  </fm-author-banner>
+
+  <nb-list *ngIf="postList" nbInfiniteList class="posts-container" fxLayout="column"
+    fxLayoutGap="10px">
+    <nb-list-item *ngFor="let post of postList">
+      <fm-post-card [post]="post"></fm-post-card>
+    </nb-list-item>
+  </nb-list>
+</div>

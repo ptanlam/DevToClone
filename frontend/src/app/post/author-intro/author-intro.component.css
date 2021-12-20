@@ -1,0 +1,11 @@
+.author-container {
+  padding: 20px 30px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.author-name {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.4rem;
+}

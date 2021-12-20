@@ -1,0 +1,12 @@
+<div class="container">
+  <img class="avatar" [src]="author.avatarUrl">
+  <div class="details" fxLayout="column" >
+    <div class="action" fxLayout="row" fxLayoutAlign="flex-end">
+      <button nbButton status="primary">{{isUser ? 'Edit profile' : 'Follow'}}</button>
+    </div>
+
+    <div class="metadata" fxLayout="column" fxLayoutAlign=" center">
+      <h4>{{ author.userName }}</h4>
+    </div>
+  </div>
+</div>

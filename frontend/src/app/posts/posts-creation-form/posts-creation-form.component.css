@@ -1,0 +1,9 @@
+.main-container {
+  background-color: white;
+  border-radius: 10px;
+}
+
+.creation-label {
+  font-weight: 300;
+  margin: 0;
+}

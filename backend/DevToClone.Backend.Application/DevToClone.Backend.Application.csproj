@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevToClone.Backend.Domain\DevToClone.Backend.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Features\Posts\Queries\Shared\" />
+    <None Remove="Contracts\ExternalStorage\" />
+    <None Remove="Features\Files\" />
+    <None Remove="Models\External\" />
+    <None Remove="Features\Authors\Shared\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Posts\Queries\Shared\" />
+    <Folder Include="Contracts\External\" />
+    <Folder Include="Features\Files\" />
+    <Folder Include="Models\External\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Features\Authors\Shared\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Features\Authors\Shared\**" />
+  </ItemGroup>
+</Project>

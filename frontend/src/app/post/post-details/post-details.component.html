@@ -1,0 +1,16 @@
+<div *ngIf="details" fxLayout="column" class="container">
+  <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="15px">
+    <img [src]="details.author.avatarUrl"
+    [alt]="details.author.userName" 
+    style="width: 50px; height: 50px; border-radius: 50%;" />
+
+    <div fxLayout="column" class="metadata" fxLayoutGap="5px">
+      <p>{{ details.author.userName }}</p>
+      <p>Posted on {{  details.createdAt | date }}</p>
+    </div>
+  </div>
+  
+  <h1 class="title">{{ details.title }}</h1>
+
+  <div class="post-content" [innerHtml]="details.content | MarkdownToHtml | fitImageTag"></div>
+</div>

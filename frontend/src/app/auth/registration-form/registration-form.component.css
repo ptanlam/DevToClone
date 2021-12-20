@@ -1,0 +1,33 @@
+.container h1 {
+  font-weight: 400;
+  font-size: 3rem;
+}
+
+form {
+  padding: 30px 50px;
+  background-color: white;
+  border-radius: 10px;
+  width: 50%;
+}
+
+.form-label {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.danger-txt {
+  color: red;
+}
+
+@media (max-width: 1000px) {
+  form {
+    width: 70%;
+  }
+}
+
+@media (max-width: 700px) {
+  form {
+    width: 90%;
+  }
+}

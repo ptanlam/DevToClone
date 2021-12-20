@@ -1,0 +1,31 @@
+.container {
+  position: relative;
+  padding-top: 50px;
+}
+
+.details {
+  background-color: white;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.avatar {
+  position: absolute;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: white;
+
+  top: -10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border: 10px solid #edf1f7;
+}
+
+.action {
+  padding: 20px;
+}
+
+.metadata {
+  padding-top: 50px;
+}

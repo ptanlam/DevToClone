@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="container">
+  <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px" style="flex: 1">
+    <h3 class="logo" routerLink="">Devto</h3>
+    <nb-form-field style="width: 100%;">
+      <input nbInput fullWidth placeholder="Search..."/>
+      <button nbButton nbSuffix ghost="">
+        <nb-icon icon="search-outline"></nb-icon>
+      </button>
+    </nb-form-field>
+  </div>
+
+  <div *ngIf="!(isAuthenticated$ | async)" fxLayout="row" fxLayoutAlign="flex-end" 
+    fxLayoutGap="10px" style="flex: 1">
+    <button nbButton routerLink="auth/login">Login</button>
+    <button nbButton status="primary" routerLink="auth/register" hero>
+      Register
+    </button>
+  </div>
+
+  <div *ngIf="(isAuthenticated$ | async)" fxLayout="row" fxLayoutGap="10px" 
+    style="flex: 1" fxLayoutAlign="flex-end center">
+    <button nbButton routerLink="/posts/create" status="info" hero
+      size="large" shape="semi-round" outline>
+      Create post
+    </button>
+    <nb-user [nbContextMenu]="items" name="" size="large"
+      [picture]="(user$| async)?.avatarUrl || ''" nbContextMenuTag="auth-context-menu">
+    </nb-user>
+  </div>
+</div>

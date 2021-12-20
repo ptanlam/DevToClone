@@ -1,0 +1,51 @@
+<div fxLayout="column" fxLayoutAlign=" center" class="container">
+  <h1>Share your wonderful stories 🤯</h1>
+
+  <form [formGroup]="form" (submit)="submit.emit" fxLayout="column" 
+    fxLayoutGap="2rem">
+    <label for="email" fxLayout="column" fxLayoutGap="10px">
+      <p class="form-label">Email: </p>
+      <input type="email" id="email" formControlName="email" nbInput fullWidth 
+        [status]="validateEmail() ? 'danger' : 'basic'">
+        <span *ngIf="validateEmail()" class="danger-txt">
+          Please enter your email.
+        </span>
+    </label>
+
+    <div for="username" fxLayout="column" fxLayoutGap="10px">
+      <p class="form-label">Username: </p>
+      <input type="text" id="username" formControlName="username" nbInput fullWidth
+        [status]="validateUsername() ? 'danger' : 'basic'">
+        <span *ngIf="validateUsername()" class="danger-txt">
+          Please enter your username.
+        </span>
+    </div>
+
+    <div for="password" fxLayout="column" fxLayoutGap="10px">
+      <p class="form-label">Password: </p>
+      <input type="password" id="password" formControlName="password" nbInput fullWidth
+        [status]="validatePassword() ? 'danger' : 'basic'">
+        <span *ngIf="validatePassword()" class="danger-txt">
+          Please enter your password.
+        </span>
+    </div>
+
+    <div for="confirmationPassword" fxLayout="column" fxLayoutGap="10px">
+      <p class="form-label">Enter password again: </p>
+      <input type="password" id="confirmationPassword" formControlName="confirmationPassword" 
+        nbInput fullWidth [status]="validateConfirmationPassword() ? 'danger' : 'basic'">
+        <span *ngIf="validateConfirmationPassword()" class="danger-txt">
+          Please enter your password as above.
+        </span>
+    </div>
+
+    <p>Already have an account? Click <a routerLink="/auth/login" style="text-decoration: none;">
+      here
+    </a> to login.</p>
+
+    <div fxLayout="row" fxLayoutAlign="flex-end">
+    </div>
+    <button status="primary" nbButton [nbSpinner]="registering">Register</button>
+</form>
+</div>
+

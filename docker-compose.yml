@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: devtoclone-backend
+    environment:
+      - CorsSettings_Origins=http://localhost:4200,http://host.docker.internal:4200
+      - JwtSettings__Key=s0m3S3ecr3Tkey#4
+      - JwtSettings__Issuer=DevToClone
+      - JwtSettings__Audience=DevToCloneAudience
+      - JwtSettings__DurationInMinutes=360
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=DevToCloneDb;User=SA;Password=Admin@123
+      - StorageSettings__BucketName=StorageSettings
+      - AWS__Profile=default
+      - AWS__Region=ap-southeast-1
+    mem_limit: 64m
+    ports:
+      - 5001:80
+    cpus: 0.1
+    depends_on:
+      - mssql
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql
+    user: root
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Admin@123
+    volumes:
+      - dev-to-clone-data:/var/opt/mssql/data
+    mem_limit: 2.2Gb
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ""$$SA_PASSWORD"" -Q "SELECT 1" || exit 1
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    cpus: 0.2
+    ports:
+      - 1433:1433
+
+volumes:
+  dev-to-clone-data:
+    driver: local
