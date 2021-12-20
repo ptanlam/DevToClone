@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbMenuService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { filter, tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 import {
   authActions,
   selectAuthStatus,
@@ -40,6 +40,22 @@ export class NavbarComponent implements OnInit {
         next: () => {
           this._store.dispatch(authActions.logout());
           this._router.navigate(['/posts']);
+        },
+      });
+
+    this._nbMenuService
+      .onItemClick()
+      .pipe(
+        filter(
+          ({ tag, item }) =>
+            tag === 'auth-context-menu' &&
+            (item.title as string).toLocaleLowerCase() === 'profile'
+        ),
+        switchMap(() => this.user$)
+      )
+      .subscribe({
+        next: (user) => {
+          this._router.navigate(['/authors', user.id]);
         },
       });
   }

@@ -17,6 +17,7 @@ export class PostsCreationFormComponent {
   @Input() creationForm!: FormGroup;
   @Input() imageUrl!: string | null;
   @Input() uploadingImage!: boolean;
+  @Input() creatingPost!: boolean;
 
   @Output() submit = new EventEmitter();
   @Output() copyImageLink = new EventEmitter<string>();

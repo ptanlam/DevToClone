@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PostDetails } from '../../models';
+import { PostDetails, User } from '../../models';
 
 @Component({
   selector: 'fm-post-grid',
@@ -8,6 +8,7 @@ import { PostDetails } from '../../models';
 })
 export class PostGridComponent implements OnInit {
   @Input() details!: PostDetails | null;
+  @Input() user!: User | null;
 
   constructor() {}
 

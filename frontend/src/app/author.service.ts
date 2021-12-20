@@ -14,7 +14,7 @@ export class AuthorService {
 
   private _paginationMeta: PaginationMeta = {
     currentPage: -1,
-    pageSize: 10,
+    pageSize: 5,
     totalCount: 0,
     totalPage: 0,
   };

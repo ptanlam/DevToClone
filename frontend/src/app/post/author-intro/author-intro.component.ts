@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Author } from '../../models';
+import { Author, User } from '../../models';
 
 @Component({
   selector: 'fm-post-author-intro',
@@ -9,6 +9,11 @@ import { Author } from '../../models';
 })
 export class AuthorIntroComponent {
   @Input() author!: Author;
+  @Input() user!: User | null;
 
   constructor() {}
+
+  isAuthor() {
+    return this.user?.id === this.author.id;
+  }
 }

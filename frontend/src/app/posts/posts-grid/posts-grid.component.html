@@ -1,8 +1,7 @@
-<nb-spinner *ngIf="!list"></nb-spinner>
 
 <div *ngIf="list" fxLayout="column" fxLayoutGap="10px">
   <div fxLayout="row" fxLayoutAlign="space-between" >
-    <h1 style="margin: 0;">Posts</h1>
+    <h1 style="margin: 0;">Latest</h1>
   </div>
 
   <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="fetchNextList.emit()" 
@@ -12,3 +11,6 @@
     </nb-list-item>
   </nb-list>
 </div>
+
+<p *ngIf="loading" style="text-align: center;">Loading...</p>
+

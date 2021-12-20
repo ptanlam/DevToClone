@@ -14,7 +14,8 @@ import { Post } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsGridComponent {
-  @Input() list!: Post[] | null;
+  @Input() list!: Post[];
+  @Input() loading!: boolean;
 
   @Output() fetchNextList = new EventEmitter();
 

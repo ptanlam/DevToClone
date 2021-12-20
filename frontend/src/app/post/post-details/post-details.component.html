@@ -1,6 +1,6 @@
 <div *ngIf="details" fxLayout="column" class="container">
   <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="15px">
-    <img [src]="details.author.avatarUrl"
+    <img [src]="details.author.avatarUrl || 'https://images-platform.99static.com//5_oXjjUVqCOk-6snmE7s_cdr-dI=/229x0:1041x812/fit-in/590x590/99designs-contests-attachments/47/47482/attachment_47482097'"
     [alt]="details.author.userName" 
     style="width: 50px; height: 50px; border-radius: 50%;" />
 

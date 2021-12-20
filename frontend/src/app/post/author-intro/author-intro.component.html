@@ -1,14 +1,14 @@
 <div fxLayout="column">
   <div fxLayout="column" fxLayoutGap="20px" class="author-container">
     <div fxLayout="row" fxLayoutAlign=" flex-end" fxLayoutGap="10px">
-      <img [src]="author.avatarUrl" 
+      <img [src]="author.avatarUrl || 'https://images-platform.99static.com//5_oXjjUVqCOk-6snmE7s_cdr-dI=/229x0:1041x812/fit-in/590x590/99designs-contests-attachments/47/47482/attachment_47482097'" 
       [alt]="author.userName" 
       style="width: 40px; height: 40px; border-radius: 50%;" />
 
       <p class="author-name">{{ author.userName }}</p>
     </div>
 
-    <button nbButton fullWidth status="primary">Follow</button>
+    <button *ngIf="!isAuthor()" nbButton fullWidth status="primary">Follow</button>
   </div>
   <div fxLayout="column"></div>
 </div>

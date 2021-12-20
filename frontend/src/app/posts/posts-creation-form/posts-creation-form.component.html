@@ -35,7 +35,9 @@
     </div>
 
     <div fxLayout="row"  fxLayoutAlign="flex-end">
-      <button nbButton status="primary" size="large">Create</button>
+      <button nbButton status="primary" size="large" [nbSpinner]="creatingPost">
+        Create
+      </button>
     </div>
   </div>
 </form>

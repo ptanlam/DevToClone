@@ -3,8 +3,16 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { catchError, of, switchMap, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { catchError, of, switchMap, tap, zip } from 'rxjs';
+import {
+  selectAuthAccessToken,
+  selectAuthStatus,
+  selectAuthUser,
+} from '../auth/state';
 import { FilesService } from '../core/services';
+import { User } from '../models';
+import { State } from '../state';
 import { PostsService } from './posts.service';
 
 @Component({
@@ -14,6 +22,7 @@ import { PostsService } from './posts.service';
       [creationForm]="creationForm"
       [imageUrl]="imageUrl$ | async"
       [uploadingImage]="uploadingImage"
+      [creatingPost]="creatingPost"
       (submit)="submit()"
       (uploadImage)="uploadImage($event)"
       (copyImageLink)="copyImageLink($event)"
@@ -23,8 +32,18 @@ import { PostsService } from './posts.service';
 })
 export class PostsCreationComponent {
   creationForm: FormGroup;
-  uploadingImage = false;
   imageUrl$ = of('');
+
+  uploadingImage = false;
+  creatingPost = false;
+
+  private readonly _isAuthenticated = this._store.select(selectAuthStatus);
+  private readonly _accessToken = this._store.select(selectAuthAccessToken);
+  private readonly _user = this._store.select(selectAuthUser);
+
+  isAuthenticated!: string;
+  accessToken!: string;
+  user!: User;
 
   constructor(
     formBuilder: FormBuilder,
@@ -32,7 +51,8 @@ export class PostsCreationComponent {
     private readonly _filesService: FilesService,
     private readonly _toastrService: NbToastrService,
     private readonly _clipboard: Clipboard,
-    private readonly _router: Router
+    private readonly _router: Router,
+    private readonly _store: Store<State>
   ) {
     this.creationForm = formBuilder.group({
       title: [
@@ -50,9 +70,31 @@ export class PostsCreationComponent {
 
   submit() {
     const { title, content, published } = this.creationForm.value;
-    this._postsService
-      .createNew$(title, content, published)
-      .subscribe({ next: () => this._router.navigate(['/posts']) });
+
+    zip(
+      this._isAuthenticated,
+      this._accessToken,
+      this._user,
+      of({ title, content, published })
+    ).subscribe({
+      next: ([
+        isAuthenticated,
+        accessToken,
+        user,
+        { title, content, published },
+      ]) => {
+        if (!isAuthenticated) return;
+        this._postsService
+          .createNew(title, content, published, accessToken, user.id)
+          .subscribe({
+            next: () => {
+              this.creatingPost = false;
+              this._router.navigate(['/posts']);
+              this._toastrService.success('Your post has been created.');
+            },
+          });
+      },
+    });
   }
 
   uploadImage(fileList: FileList | null) {

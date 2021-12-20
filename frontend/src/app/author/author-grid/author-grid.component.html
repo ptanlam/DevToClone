@@ -3,7 +3,7 @@
   </fm-author-banner>
 
   <nb-list *ngIf="postList" nbInfiniteList class="posts-container" fxLayout="column"
-    fxLayoutGap="10px">
+    fxLayoutGap="10px" [throttleTime]="500" >
     <nb-list-item *ngFor="let post of postList">
       <fm-post-card [post]="post"></fm-post-card>
     </nb-list-item>

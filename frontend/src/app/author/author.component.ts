@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, mergeMap, Subscription, tap, zip } from 'rxjs';
+import { map, mergeMap, Subscription, zip } from 'rxjs';
 import { selectAuthUser } from '../auth/state';
 import { AuthorService } from '../author.service';
 import { State } from '../state';
