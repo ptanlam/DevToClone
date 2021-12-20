@@ -6,6 +6,7 @@ import { map, of, switchMap, tap } from 'rxjs';
 import { State } from '../state';
 import { AuthService } from './auth.service';
 import { authActions } from './state';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'fm-login',
@@ -25,7 +26,8 @@ export class LoginComponent {
     formBuilder: FormBuilder,
     private readonly _store: Store<State>,
     private readonly _authService: AuthService,
-    private readonly _router: Router
+    private readonly _router: Router,
+    private readonly _toastrService: NbToastrService
   ) {
     this.form = formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -47,6 +49,10 @@ export class LoginComponent {
           this._store.dispatch(authActions.loginSuccess({ payload: resp }));
           this._router.navigate(['/posts']);
           this.logging = false;
+        },
+        error: ({ error }) => {
+          this.logging = false;
+          this._toastrService.danger(error);
         },
       });
   }

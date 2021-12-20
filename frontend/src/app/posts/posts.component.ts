@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
-import { concatMap, of, tap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { PaginationMeta, Post } from '../models';
 import { PostsService } from './posts.service';
 
@@ -36,7 +36,7 @@ export class PostsComponent {
     of(true)
       .pipe(
         tap(() => (this.loading = true)),
-        concatMap(() => this._postService.fetchList(currentPage + 1, pageSize))
+        switchMap(() => this._postService.fetchList(currentPage + 1, pageSize))
       )
       .subscribe({
         next: ({ body, headers }) => {

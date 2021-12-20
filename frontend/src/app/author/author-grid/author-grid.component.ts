@@ -1,8 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
-  OnInit,
+  Output,
 } from '@angular/core';
 import { Post, User } from '../../models';
 
@@ -12,12 +13,13 @@ import { Post, User } from '../../models';
   styleUrls: ['./author-grid.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthorGridComponent implements OnInit {
+export class AuthorGridComponent {
   @Input() author!: User | null;
   @Input() postList!: Post[] | null;
   @Input() isUser!: boolean | null;
+  @Input() loading!: boolean;
+
+  @Output() fetchNext = new EventEmitter();
 
   constructor() {}
-
-  ngOnInit(): void {}
 }
