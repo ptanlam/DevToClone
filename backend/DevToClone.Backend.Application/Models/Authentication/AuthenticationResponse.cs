@@ -1,4 +1,6 @@
-﻿namespace DevToClone.Backend.Application
+﻿using System;
+
+namespace DevToClone.Backend.Application.Models.Authentication
 {
     public class AuthenticationResponse
     {

@@ -16,7 +16,7 @@ namespace DevToClone.Backend.API.Controllers
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService ??
-                throw new ArgumentNullException(nameof(authenticationService));
+                                     throw new ArgumentNullException(nameof(authenticationService));
         }
 
         [HttpPost("login")]
@@ -25,7 +25,7 @@ namespace DevToClone.Backend.API.Controllers
         {
             var (success, message, response) = await _authenticationService
                 .LoginAsync(request);
-            if (!success) return BadRequest(new { message });
+            if (!success) return BadRequest(message);
             return Ok(response);
         }
 
@@ -33,7 +33,7 @@ namespace DevToClone.Backend.API.Controllers
         public async Task<ActionResult> Register([FromBody] RegistrationRequest request)
         {
             var (success, message) = await _authenticationService.RegisterAsync(request);
-            if (!success) return BadRequest(new { message });
+            if (!success) return BadRequest(message);
             return Ok();
         }
     }

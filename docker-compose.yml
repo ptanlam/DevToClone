@@ -1,9 +1,21 @@
 version: '3.9'
 
 services:
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        - BACKEND_URL=http://localhost:5001
+    container_name: devtoclone-frontend
+    ports:
+      - 4200:80
+    mem_limit: 64m
+    cpus: 0.1
+    networks:
+      - devto-clone
+
   backend:
-    build:
-      context: ./backend
+    build: ./backend
     container_name: devtoclone-backend
     environment:
       - CorsSettings_Origins=http://localhost:4200,http://host.docker.internal:4200
@@ -21,6 +33,8 @@ services:
     cpus: 0.1
     depends_on:
       - mssql
+    networks:
+      - devto-clone
 
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -40,6 +54,12 @@ services:
     cpus: 0.2
     ports:
       - 1433:1433
+    networks:
+      - devto-clone
+
+networks:
+  devto-clone:
+    driver: bridge
 
 volumes:
   dev-to-clone-data:

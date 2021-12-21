@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: process.env['backendUrl'],
+  backendUrl: $ENV.BACKEND_URL,
 };

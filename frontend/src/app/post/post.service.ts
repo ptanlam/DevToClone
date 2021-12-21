@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
-import { PostDetails } from './models';
+import { environment } from '../../environments/environment';
+import { PostDetails } from '../models';
 
 @Injectable()
 export class PostService {

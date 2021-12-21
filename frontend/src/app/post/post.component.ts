@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { selectAuthUser } from '../auth/state';
 import { PostDetails } from '../models';
-import { PostService } from '../post.service';
+import { PostService } from './post.service';
 import { State } from '../state';
 
 @Component({
