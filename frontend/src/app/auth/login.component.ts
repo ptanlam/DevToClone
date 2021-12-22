@@ -1,12 +1,12 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { map, of, switchMap, tap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { State } from '../state';
 import { AuthService } from './auth.service';
-import { authActions } from './state';
-import { NbToastrService } from '@nebular/theme';
+import { authActions, selectAuthStatus } from './state';
 
 @Component({
   selector: 'fm-login',
@@ -26,12 +26,19 @@ export class LoginComponent {
     formBuilder: FormBuilder,
     private readonly _store: Store<State>,
     private readonly _authService: AuthService,
-    private readonly _router: Router,
-    private readonly _toastrService: NbToastrService
+    private readonly _toastrService: NbToastrService,
+    private readonly _location: Location
   ) {
     this.form = formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
+    });
+
+    this._store.select(selectAuthStatus).subscribe({
+      next: (isAuthenticated) => {
+        if (!isAuthenticated) return;
+        this._location.back();
+      },
     });
   }
 
@@ -47,7 +54,7 @@ export class LoginComponent {
       .subscribe({
         next: (resp) => {
           this._store.dispatch(authActions.loginSuccess({ payload: resp }));
-          this._router.navigate(['/posts']);
+          this._location.back();
           this.logging = false;
         },
         error: ({ error }) => {

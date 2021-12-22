@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Post } from '../models';
+import { Post, Tag } from '../models';
 
 @Injectable()
 export class PostsService {
@@ -14,7 +14,8 @@ export class PostsService {
     content: string,
     published: boolean,
     accessToken: string,
-    authorId: string
+    authorId: string,
+    tags: Pick<Tag, 'name'>[]
   ) {
     return this._httpClient.post<Post>(
       this._serviceUrl,
@@ -23,6 +24,7 @@ export class PostsService {
         content,
         published,
         authorId,
+        tags,
       },
       { headers: { authorization: `Bearer ${accessToken}` } }
     );

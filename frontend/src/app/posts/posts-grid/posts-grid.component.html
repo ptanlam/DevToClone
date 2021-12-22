@@ -7,7 +7,7 @@
   <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="fetchNextList.emit()" 
     fxLayout="column" fxLayoutGap="10px">
     <nb-list-item *ngFor="let post of list">
-      <fm-post-card [post]="post"></fm-post-card>
+      <sm-post-card [post]="post" style="width: 100%;"></sm-post-card>
     </nb-list-item>
   </nb-list>
 </div>

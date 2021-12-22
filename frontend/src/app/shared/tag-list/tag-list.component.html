@@ -1,0 +1,8 @@
+<div fxLayout="row">
+  <nb-tag-list >
+    <nb-tag *ngFor="let tag of tags" 
+      [status]="getTagType()" 
+      appearance="outline" size="small" [text]="tag.name">
+    </nb-tag>
+  </nb-tag-list>
+</div>

@@ -4,14 +4,16 @@ using DevToClone.Backend.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DevToClone.Backend.Persistence.Migrations
 {
     [DbContext(typeof(DevToCloneDbContext))]
-    partial class DevToCloneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211222071233_RemoveConstraintsInTagModel")]
+    partial class RemoveConstraintsInTagModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

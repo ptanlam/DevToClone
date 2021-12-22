@@ -13,7 +13,6 @@ namespace DevToClone.Backend.Domain.PostAggregate
             var tag = new Tag(name);
 
             tag.Name.Should().Be(name);
-            tag.Posts.Should().BeEmpty();
         }
     }
 }

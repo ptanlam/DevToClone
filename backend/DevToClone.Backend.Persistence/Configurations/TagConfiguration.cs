@@ -12,10 +12,7 @@ namespace DevToClone.Backend.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(250);
 
-            builder.HasIndex(t => t.Name)
-                .IsUnique();
-
-            builder.HasMany(t => t.Posts);
+            builder.HasIndex(t => t.Name);
         }
     }
 }

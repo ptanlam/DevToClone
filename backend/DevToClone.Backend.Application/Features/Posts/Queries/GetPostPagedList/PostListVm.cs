@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using DevToClone.Backend.Application.Features.Posts.Queries.Shared;
+using DevToClone.Backend.Domain.PostAggregate;
 
 namespace DevToClone.Backend.Application.Features.Posts.Queries.GetPostPagedList
 {
@@ -10,5 +13,6 @@ namespace DevToClone.Backend.Application.Features.Posts.Queries.GetPostPagedList
         public DateTime CreatedAt { get; set; }
         public AuthorDto Author { get; set; }
         public string Content { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
     }
 }

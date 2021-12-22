@@ -2,7 +2,11 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NbToastrService } from '@nebular/theme';
+import {
+  NbTagComponent,
+  NbTagInputAddEvent,
+  NbToastrService,
+} from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { catchError, of, switchMap, tap, zip } from 'rxjs';
 import {
@@ -11,7 +15,7 @@ import {
   selectAuthUser,
 } from '../auth/state';
 import { FilesService } from '../core/services';
-import { User } from '../models';
+import { Tag, User } from '../models';
 import { State } from '../state';
 import { PostsService } from './posts.service';
 
@@ -23,9 +27,12 @@ import { PostsService } from './posts.service';
       [imageUrl]="imageUrl$ | async"
       [uploadingImage]="uploadingImage"
       [creatingPost]="creatingPost"
+      [tags]="tags"
       (submit)="submit()"
       (uploadImage)="uploadImage($event)"
       (copyImageLink)="copyImageLink($event)"
+      (onTagAdd)="onTagAdd($event)"
+      (onTagRemove)="onTagRemove($event)"
     ></fm-posts-creation-form>
   `,
   styles: [],
@@ -34,6 +41,7 @@ export class PostsCreationComponent {
   creationForm: FormGroup;
   imageUrl$ = of('');
 
+  tags = new Set<string>();
   uploadingImage = false;
   creatingPost = false;
 
@@ -68,24 +76,38 @@ export class PostsCreationComponent {
     });
   }
 
+  onTagRemove(tagToRemove: NbTagComponent): void {
+    this.tags.delete(tagToRemove.text);
+  }
+
+  onTagAdd({ value, input }: NbTagInputAddEvent): void {
+    if (value) {
+      this.tags.add(value);
+    }
+    input.nativeElement.value = '';
+  }
+
   submit() {
     const { title, content, published } = this.creationForm.value;
+
+    const tags: Pick<Tag, 'name'>[] = [];
+    this.tags.forEach((tag) => tags.push({ name: tag }));
 
     zip(
       this._isAuthenticated,
       this._accessToken,
       this._user,
-      of({ title, content, published })
+      of({ title, content, published, tags })
     ).subscribe({
       next: ([
         isAuthenticated,
         accessToken,
         user,
-        { title, content, published },
+        { title, content, published, tags },
       ]) => {
         if (!isAuthenticated) return;
         this._postsService
-          .createNew(title, content, published, accessToken, user.id)
+          .createNew(title, content, published, accessToken, user.id, tags)
           .subscribe({
             next: () => {
               this.creatingPost = false;

@@ -1,43 +1,55 @@
-<form [formGroup]="creationForm" (submit)="submit.emit">
-  <div fxLayout="column" fxLayoutGap="40px">
-    <div fxLayout="column" class="main-container">
-      <input type="text" nbInput formControlName="title" fullWidth fieldSize="giant" 
-        placeholder="New post title here..."
-        style="background: none !important; font-size: 2.5rem;
-          outline: none !important; border: none; padding: 30px;"/>
-      <md-editor formControlName="content" height="60vh"></md-editor>
-    </div>
-
-    <div fxLayout="column" fxLayoutGap="20px">
-      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
-        <h5 class="creation-label">Publish:</h5>
-        <nb-toggle formControlName="published"></nb-toggle>
+<div fxLayout="column" fxLayoutGap="20px">
+  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+    <h5 class="creation-label">Tags:</h5>
+    <nb-tag-list (tagRemove)="onTagRemove.emit($event)">
+      <nb-tag *ngFor="let tag of tags" [text]="tag" removable></nb-tag>
+        <input type="text" nbTagInput (tagAdd)="onTagAdd.emit($event)" 
+          fullWidth style="padding: 10px;">
+    </nb-tag-list>
+  </div>
+  
+  <form [formGroup]="creationForm" (submit)="submit.emit">
+    <div fxLayout="column" fxLayoutGap="40px">
+      <div fxLayout="column" class="main-container" fxLayoutGap="20px">
+        <input type="text" nbInput formControlName="title" fullWidth fieldSize="giant" 
+          placeholder="New post title here..."
+          style="background:white; font-size: 2rem; font-weight: 400;
+            border: none; padding: 30px;"/>
+  
+        <md-editor formControlName="content" height="60vh"></md-editor>
       </div>
-
-      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
-        <h5 class="creation-label">Image:</h5>
-
-        <div fxLayout="column" fxLayoutGap="5px" style="width: 100%">
-          <input type="file" nbInput #fileListInput [disabled]="uploadingImage"
-            (change)="uploadImage.emit(fileListInput.files)">
-
-          <div fxLayout="row" fxLayoutGap="10px">
-            <input type="text" [value]="imageUrl || ''" fullWidth
-              nbInput disabled style="color: #222b45; cursor: text;">
-            <button type="button" nbButton outline status="success" 
-              [disabled]="!imageUrl" (click)="copyImageLink.emit(imageUrl || '')"
-              nbPopover="Copied!" [nbSpinner]="uploadingImage">
-              {{uploadingImage ? 'Uploading...' : 'Copy'}}
-            </button>
+  
+      <div fxLayout="column" fxLayoutGap="20px">
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+          <h5 class="creation-label">Publish:</h5>
+          <nb-toggle formControlName="published"></nb-toggle>
+        </div>
+  
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+          <h5 class="creation-label">Image:</h5>
+  
+          <div fxLayout="column" fxLayoutGap="5px" style="width: 100%">
+            <input type="file" nbInput #fileListInput [disabled]="uploadingImage"
+              (change)="uploadImage.emit(fileListInput.files)">
+  
+            <div fxLayout="row" fxLayoutGap="10px">
+              <input type="text" [value]="imageUrl || ''" fullWidth
+                nbInput disabled style="color: #222b45; cursor: text;">
+              <button type="button" nbButton outline status="success" 
+                [disabled]="!imageUrl" (click)="copyImageLink.emit(imageUrl || '')"
+                nbPopover="Copied!" [nbSpinner]="uploadingImage">
+                {{uploadingImage ? 'Uploading...' : 'Copy'}}
+              </button>
+            </div>
           </div>
         </div>
       </div>
+  
+      <div fxLayout="row"  fxLayoutAlign="flex-end">
+        <button nbButton status="primary" size="large" [nbSpinner]="creatingPost">
+          Create
+        </button>
+      </div>
     </div>
-
-    <div fxLayout="row"  fxLayoutAlign="flex-end">
-      <button nbButton status="primary" size="large" [nbSpinner]="creatingPost">
-        Create
-      </button>
-    </div>
-  </div>
-</form>
+  </form>
+</div>

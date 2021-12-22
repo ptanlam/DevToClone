@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DevToClone.Backend.Application.Contracts.Persistence;
@@ -20,6 +21,8 @@ namespace DevToClone.Backend.Persistence.Repositories
                 .OrderByDescending(p => p.CreatedAt)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
+                .Include(p => p.Tags)
+                .AsSplitQuery()
                 .ToListAsync();
 
             return postList;
@@ -33,9 +36,19 @@ namespace DevToClone.Backend.Persistence.Repositories
                 .OrderByDescending(p => p.CreatedAt)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
+                .Include(p => p.Tags)
+                .AsSplitQuery()
                 .ToListAsync();
 
             return postList;
+        }
+
+        public override Task<Post> GetByIdAsync(Guid id)
+        {
+            return Context.Posts.Where(p => p.Id == id)
+                .Include(p => p.Tags)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync();
         }
     }
 }

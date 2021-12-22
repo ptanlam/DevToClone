@@ -1,5 +1,5 @@
-﻿using DevToClone.Backend.Domain.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using DevToClone.Backend.Domain.Common;
 
 namespace DevToClone.Backend.Domain.PostAggregate
 {
@@ -13,9 +13,6 @@ namespace DevToClone.Backend.Domain.PostAggregate
         private Tag()
         {
         }
-
-        private readonly List<Post> _posts = new();
-        public IReadOnlyList<Post> Posts => _posts.AsReadOnly();
 
         public string Name { get; private set; }
     }

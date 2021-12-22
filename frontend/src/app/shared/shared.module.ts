@@ -18,13 +18,21 @@ import {
   NbSpinnerModule,
   NbToggleModule,
   NbUserModule,
+  NbTagModule,
 } from '@nebular/theme';
 import { FitImageTagPipe } from './pipes';
 import { PostsCardComponent } from './posts-card';
+import { TagListComponent } from './tag-list';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, NbCardModule, FlexLayoutModule],
-  declarations: [FitImageTagPipe, PostsCardComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NbCardModule,
+    NbTagModule,
+    FlexLayoutModule,
+  ],
+  declarations: [FitImageTagPipe, PostsCardComponent, TagListComponent],
   exports: [
     NbLayoutModule,
     NbButtonModule,
@@ -40,6 +48,7 @@ import { PostsCardComponent } from './posts-card';
     NbContextMenuModule,
     NbFormFieldModule,
     NbListModule,
+    NbTagModule,
 
     RouterModule,
     CommonModule,
@@ -50,6 +59,7 @@ import { PostsCardComponent } from './posts-card';
     FitImageTagPipe,
 
     PostsCardComponent,
+    TagListComponent,
   ],
 })
 export class SharedModule {}

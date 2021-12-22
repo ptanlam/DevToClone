@@ -14,6 +14,8 @@
         </div>
         
         <h3 class="title" [routerLink]="['/posts', post.id]">{{ post.title }}</h3>
+        
+        <sm-tag-list [tags]="post.tags"></sm-tag-list>
       </div>
     </div>
   </nb-card-body>

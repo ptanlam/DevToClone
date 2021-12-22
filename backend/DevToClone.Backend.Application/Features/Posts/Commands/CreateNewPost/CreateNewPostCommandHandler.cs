@@ -43,6 +43,8 @@ namespace DevToClone.Backend.Application.Features.Posts.Commands.CreateNewPost
             var post = new Post(request.Title, request.Content,
                 request.Published, request.AuthorId);
 
+            post.AddTags(request.Tags);
+
             var postListVm = _mapper.Map<PostListVm>(await _postRepository.AddAsync(post));
             postListVm.Author = _mapper.Map<AuthorDto>(author);
 

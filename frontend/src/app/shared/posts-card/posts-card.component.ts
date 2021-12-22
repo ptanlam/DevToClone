@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Post } from '../../models';
 
 @Component({
-  selector: 'fm-post-card',
+  selector: 'sm-post-card',
   templateUrl: './posts-card.component.html',
   styleUrls: ['./posts-card.component.css'],
 })

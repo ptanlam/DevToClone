@@ -10,10 +10,7 @@ import { Author, User } from '../../models';
 export class AuthorIntroComponent {
   @Input() author!: Author;
   @Input() user!: User | null;
+  @Input() authorIsUser!: boolean;
 
   constructor() {}
-
-  isAuthor() {
-    return this.user?.id === this.author.id;
-  }
 }

@@ -1,9 +1,13 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
+import { Store } from '@ngrx/store';
 import { of, switchMap, tap } from 'rxjs';
+import { State } from '../state';
 import { AuthService } from './auth.service';
+import { selectAuthStatus } from './state';
 
 @Component({
   selector: 'fm-registration',
@@ -23,7 +27,9 @@ export class RegistrationComponent implements OnInit {
     formBuilder: FormBuilder,
     private readonly _authService: AuthService,
     private readonly _router: Router,
-    private readonly _nBToastrService: NbToastrService
+    private readonly _location: Location,
+    private readonly _nBToastrService: NbToastrService,
+    private readonly _store: Store<State>
   ) {
     this.form = formBuilder.group({
       email: ['', [Validators.email, Validators.required]],
@@ -44,6 +50,13 @@ export class RegistrationComponent implements OnInit {
         ],
       ],
       confirmationPassword: ['', [Validators.required]],
+    });
+
+    this._store.select(selectAuthStatus).subscribe({
+      next: (isAuthenticated) => {
+        if (!isAuthenticated) return;
+        this._location.back();
+      },
     });
   }
 

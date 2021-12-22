@@ -18,8 +18,11 @@ export class PostsCreationFormComponent {
   @Input() imageUrl!: string | null;
   @Input() uploadingImage!: boolean;
   @Input() creatingPost!: boolean;
+  @Input() tags!: Set<string>;
 
   @Output() submit = new EventEmitter();
   @Output() copyImageLink = new EventEmitter<string>();
   @Output() uploadImage = new EventEmitter<FileList | null>();
+  @Output() onTagAdd = new EventEmitter();
+  @Output() onTagRemove = new EventEmitter();
 }

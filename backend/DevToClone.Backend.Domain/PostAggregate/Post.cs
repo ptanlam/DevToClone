@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using DevToClone.Backend.Domain.Common;
 
 namespace DevToClone.Backend.Domain.PostAggregate
@@ -25,6 +26,11 @@ namespace DevToClone.Backend.Domain.PostAggregate
         public string Content { get; private set; }
         public bool Published { get; private set; }
         public string AuthorId { get; }
+
+        public void AddTags(IEnumerable<Tag> tags)
+        {
+            this._tags.AddRange(tags);
+        }
 
         public void UpdateTitle(string newTitle)
         {

@@ -9,8 +9,11 @@ import { PostDetails, User } from '../../models';
 export class PostGridComponent implements OnInit {
   @Input() details!: PostDetails | null;
   @Input() user!: User | null;
+  @Input() authorIsUser!: boolean;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.authorIsUser);
+  }
 }
