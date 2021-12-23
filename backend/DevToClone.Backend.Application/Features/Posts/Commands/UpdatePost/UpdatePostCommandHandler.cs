@@ -14,12 +14,10 @@ namespace DevToClone.Backend.Application.Features.Posts.Commands.UpdatePost
 
         public UpdatePostCommandHandler(IPostRepository postRepository)
         {
-            _postRepository = postRepository ??
-                              throw new ArgumentNullException(nameof(postRepository));
+            _postRepository = postRepository ?? throw new ArgumentNullException(nameof(postRepository));
         }
 
-        public async Task<Post> Handle(UpdatePostCommand request,
-            CancellationToken cancellationToken)
+        public async Task<Post> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
         {
             var post = await _postRepository.GetByIdAsync(request.Id);
             if (post == null) return null;
@@ -27,6 +25,9 @@ namespace DevToClone.Backend.Application.Features.Posts.Commands.UpdatePost
             post.UpdateTitle(request.Title);
             post.UpdateContent(request.Content);
             post.UpdatePublished(request.Published);
+            post.UpdateTags(request.Tags);
+
+            await _postRepository.UpdateAsync(post);
 
             return post;
         }

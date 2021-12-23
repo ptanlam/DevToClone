@@ -1,10 +1,11 @@
+using System;
 using DevToClone.Backend.Domain.PostAggregate;
 using MediatR;
 
 namespace DevToClone.Backend.Application.Features.Posts.Commands.DeletePost
 {
-    public class DeletePost : IRequest
+    public class DeletePostCommand : IRequest<(bool found, bool success)>
     {
-        public Post Post { get; set; }
+        public Guid Id { get; set; }
     }
 }

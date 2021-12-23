@@ -31,8 +31,8 @@ namespace DevToClone.Backend.Application.Features.Posts.Queries.GetPostPagedList
         public async Task<PagedList<PostListVm>> Handle(
             GetPostPagedList request, CancellationToken cancellationToken)
         {
-            var postList = await _postRepository.ListAsync(
-                request.PageNumber, request.PageSize);
+            var postList = await _postRepository.ListByConditionsAsync(
+                request.PageNumber, request.PageSize, request.Term);
 
             var postListVms = new List<PostListVm>();
 

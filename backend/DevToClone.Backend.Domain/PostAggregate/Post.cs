@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DevToClone.Backend.Domain.Common;
 
 namespace DevToClone.Backend.Domain.PostAggregate
 {
     public class Post : AuditableEntity
     {
-        private readonly List<Tag> _tags = new();
+        private List<Tag> _tags = new();
 
         public Post(string title, string content, bool published, string authorId)
         {
@@ -48,6 +50,17 @@ namespace DevToClone.Backend.Domain.PostAggregate
         {
             if (Published == published) return;
             Published = published;
+        }
+
+        public void UpdateTags(IEnumerable<Tag> tags)
+        {
+            _tags.Clear();
+            _tags.AddRange(tags);
+        }
+
+        public void Delete()
+        {
+            DeletedAt = DateTime.UtcNow;
         }
     }
 }

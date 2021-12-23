@@ -11,6 +11,7 @@ namespace DevToClone.Backend.Application.Features.Posts.Queries.GetPostById
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public bool Published { get; set; }
         public AuthorDto Author { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
     }

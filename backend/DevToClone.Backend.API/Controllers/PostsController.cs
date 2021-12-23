@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using DevToClone.Backend.Application.Features.Posts.Commands.CreateNewPost;
+using DevToClone.Backend.Application.Features.Posts.Commands.DeletePost;
 using DevToClone.Backend.Application.Features.Posts.Commands.UpdatePost;
 using DevToClone.Backend.Application.Features.Posts.Queries.GetPostById;
 using DevToClone.Backend.Application.Features.Posts.Queries.GetPostPagedList;
@@ -103,6 +104,21 @@ namespace DevToClone.Backend.API.Controllers
             var updatedPost = await _mediator.Send(updatePostCommand);
             if (updatedPost == null) return NotFound();
             return Ok(updatedPost);
+        }
+
+        [Authorize]
+        [HttpDelete("{id:guid}")]
+        [SwaggerOperation(
+            Summary = "Delete post",
+            Description = "Delete post",
+            OperationId = "Post.Delete",
+            Tags = new[] {"Post"})
+        ]
+        public async Task<ActionResult> DeletePost([FromRoute] DeletePostCommand deletePostCommand)
+        {
+            var (found, _) = await _mediator.Send(deletePostCommand);
+            if (!found) return NotFound();
+            return NoContent();
         }
     }
 }

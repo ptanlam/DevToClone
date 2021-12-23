@@ -17,7 +17,7 @@ namespace DevToClone.Backend.Persistence.Repositories
         public override async Task<IEnumerable<Post>> ListAsync(int pageNumber, int pageSize)
         {
             var postList = await Context.Posts
-                .Where(p => p.Published == true)
+                .Where(p => p.Published == true && p.DeletedAt == null)
                 .OrderByDescending(p => p.CreatedAt)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
@@ -28,11 +28,39 @@ namespace DevToClone.Backend.Persistence.Repositories
             return postList;
         }
 
-        public async Task<IEnumerable<Post>> ListForAuthorAsync(int pageNumber,
+        public async Task<IEnumerable<Post>> ListByConditionsAsync(int pageNumber, int pageSize, string term)
+        {
+            var postList = await Context.Posts
+                .Where(p => p.Published == true && p.DeletedAt == null && p.Title.Contains(term ?? ""))
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip(pageNumber * pageSize)
+                .Take(pageSize)
+                .Include(p => p.Tags)
+                .AsSplitQuery()
+                .ToListAsync();
+
+            return postList;
+        }
+
+        public async Task<IEnumerable<Post>> ListForAuthorAsync(int pageNumber, int pageSize, string authorId)
+        {
+            var postList = await Context.Posts
+                .Where(p => p.AuthorId == authorId && p.DeletedAt == null)
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip(pageNumber * pageSize)
+                .Take(pageSize)
+                .Include(p => p.Tags)
+                .AsSplitQuery()
+                .ToListAsync();
+
+            return postList;
+        }
+
+        public async Task<IEnumerable<Post>> PublishedListForAuthorAsync(int pageNumber,
             int pageSize, string authorId)
         {
             var postList = await Context.Posts
-                .Where(p => p.Published == true && p.AuthorId == authorId)
+                .Where(p => p.Published == true && p.AuthorId == authorId && p.DeletedAt == null)
                 .OrderByDescending(p => p.CreatedAt)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
