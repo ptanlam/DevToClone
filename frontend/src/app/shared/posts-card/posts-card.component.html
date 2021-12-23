@@ -5,12 +5,21 @@
         [alt]="post.author.userName" 
         style="width: 50px; height: 50px; border-radius: 50%;" />
       
-      <div fxLayout="column" class="content-container" fxLayoutGap="15px">
-        <div fxLayout="column" fxLayoutAlign="center" class="metadata-container">
-          <p [routerLink]="['/authors', post.author.id]" style="cursor: pointer;">
-            {{ post.author.userName }}
-          </p>
-          <p style="color: gray;">{{ post.createdAt | date }}</p>
+      <div fxLayout="column" class="content-container" fxLayoutGap="15px" style="width: 100%;">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxLayout="column" fxLayoutAlign="center" class="metadata-container">
+            <p [routerLink]="['/authors', post.author.id]" style="cursor: pointer;">
+              {{ post.author.userName }}
+            </p>
+            <p style="color: gray;">{{ post.createdAt | date }}</p>
+          </div>
+
+          <div fxLayout="row" *ngIf="belongToUser">
+            <button nbButton size="small" status="info" 
+              [routerLink]="['/posts', post.id, 'update']">
+              Edit
+            </button>
+          </div>
         </div>
         
         <h3 class="title" [routerLink]="['/posts', post.id]">{{ post.title }}</h3>

@@ -23,14 +23,18 @@ import {
 import { FitImageTagPipe } from './pipes';
 import { PostsCardComponent } from './posts-card';
 import { TagListComponent } from './tag-list';
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+
+    FlexLayoutModule,
+
     NbCardModule,
     NbTagModule,
-    FlexLayoutModule,
+    NbButtonModule,
   ],
   declarations: [FitImageTagPipe, PostsCardComponent, TagListComponent],
   exports: [
@@ -49,6 +53,8 @@ import { TagListComponent } from './tag-list';
     NbFormFieldModule,
     NbListModule,
     NbTagModule,
+
+    LMarkdownEditorModule,
 
     RouterModule,
     CommonModule,

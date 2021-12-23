@@ -9,13 +9,14 @@
   margin: 0;
 }
 
-.metadata p:first-child {
+.author-name {
   font-weight: 700;
 }
 
-.metadata p:nth-child(2) {
+.track-txt {
   color: grey;
   font-weight: 300;
+  font-size: 0.8rem;
 }
 
 .title {

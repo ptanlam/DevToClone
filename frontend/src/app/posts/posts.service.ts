@@ -30,9 +30,11 @@ export class PostsService {
     );
   }
 
-  fetchList(pageNumber: number, pageSize: number) {
+  fetchList(pageNumber: number, pageSize: number, term?: string) {
     return this._httpClient.get<Post[]>(
-      `${this._serviceUrl}?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+      `${this._serviceUrl}?pageSize=${pageSize}&pageNumber=${pageNumber}&term=${
+        term || ''
+      }`,
       { observe: 'response' }
     );
   }

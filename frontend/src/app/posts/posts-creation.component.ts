@@ -125,7 +125,12 @@ export class PostsCreationComponent {
       tap(() => (this.uploadingImage = true)),
       switchMap(() =>
         this._filesService.upload$(fileList[0]).pipe(
-          tap(() => (this.uploadingImage = false)),
+          tap((imageUrl) => {
+            this.uploadingImage = false;
+            this.creationForm.patchValue({
+              content: `${this.creationForm.value['content']} \n\n ${imageUrl}`,
+            });
+          }),
           catchError((error) =>
             of(error).pipe(
               tap(() => {

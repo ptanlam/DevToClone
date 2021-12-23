@@ -16,7 +16,7 @@ import { Post, User } from '../../models';
 export class AuthorGridComponent {
   @Input() author!: User | null;
   @Input() postList!: Post[] | null;
-  @Input() isUser!: boolean | null;
+  @Input() isUser!: boolean;
   @Input() loading!: boolean;
 
   @Output() fetchNext = new EventEmitter();

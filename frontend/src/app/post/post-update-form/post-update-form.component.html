@@ -8,7 +8,7 @@
     </nb-tag-list>
   </div>
   
-  <form [formGroup]="creationForm" (submit)="submit.emit">
+  <form [formGroup]="updateForm" (submit)="submit.emit">
     <div fxLayout="column" fxLayoutGap="40px">
       <div fxLayout="column" class="main-container" fxLayoutGap="20px">
         <input type="text" nbInput formControlName="title" fullWidth fieldSize="giant" 
@@ -46,11 +46,16 @@
         </div>
       </div>
   
-      <div fxLayout="row"  fxLayoutAlign="flex-end">
-        <button nbButton status="primary" size="large" [nbSpinner]="creatingPost">
-          Create
+      <div fxLayout="row"  fxLayoutAlign="flex-end" fxLayoutGap="10px">
+        <button type="button" nbButton status="danger" size="large" [nbSpinner]="updatingPost" 
+          (click)="delete.emit()">
+          Delete
+        </button>
+        <button nbButton status="primary" size="large" [nbSpinner]="updatingPost">
+          Update
         </button>
       </div>
     </div>
   </form>
 </div>
+

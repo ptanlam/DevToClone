@@ -6,5 +6,6 @@ export interface Post {
   title: string;
   createdAt: string;
   author: Author;
+  published: boolean;
   tags: Tag[];
 }

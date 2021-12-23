@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { map, switchMap, tap, zip } from 'rxjs';
+import { combineLatest, iif, map, switchMap, tap } from 'rxjs';
 import { selectAuthUser } from '../auth/state';
 import { AuthorService } from '../author.service';
-import { PaginationMeta, Post, User } from '../models';
+import { PaginationMeta, Post } from '../models';
 import { State } from '../state';
 
 @Component({
@@ -13,8 +13,8 @@ import { State } from '../state';
   template: `
     <fm-author-grid
       [postList]="postList"
-      [author]="profile"
-      [isUser]="isUser$ | async"
+      [author]="author$ | async"
+      [isUser]="(isUser$ | async) || false"
       [loading]="loading"
       (fetchNext)="fetchPostList()"
     ></fm-author-grid>
@@ -22,14 +22,18 @@ import { State } from '../state';
   styles: [],
   providers: [AuthorService],
 })
-export class AuthorComponent implements OnInit {
+export class AuthorComponent {
   postList: Post[] = [];
-  profile!: User;
+  author$ = this._route.params.pipe(
+    map((params) => params['id'] as string),
+    switchMap((id) => this._authorService.getProfile(id))
+  );
   loading = false;
 
-  isUser$ = zip(this._store.select(selectAuthUser), this._route.params).pipe(
-    map(([user, { id }]) => user.id === id)
-  );
+  isUser$ = combineLatest([
+    this._store.select(selectAuthUser),
+    this._route.params,
+  ]).pipe(map(([user, { id }]) => user.id === id));
 
   private _paginationMeta: PaginationMeta = {
     currentPage: -1,
@@ -45,25 +49,22 @@ export class AuthorComponent implements OnInit {
     private readonly _toastrService: NbToastrService
   ) {}
 
-  ngOnInit(): void {
-    this._route.params.pipe(map((params) => params['id'] as string)).subscribe({
-      next: (id) =>
-        this._authorService.getProfile(id).subscribe({
-          next: (profile) => (this.profile = profile),
-          error: () => this._toastrService.danger('Something wrong happened.'),
-        }),
-    });
-  }
-
   fetchPostList() {
     const { pageSize, currentPage } = this._paginationMeta;
 
-    this._route.params
+    combineLatest([this._route.params, this.isUser$])
       .pipe(
         tap(() => (this.loading = true)),
-        map((params) => params['id'] as string),
-        switchMap((id) =>
-          this._authorService.getPostList(id, currentPage + 1, pageSize)
+        switchMap(([{ id }, isUser]) =>
+          iif(
+            () => isUser,
+            this._authorService.getPostList(id, currentPage + 1, pageSize),
+            this._authorService.getPublishedPostList(
+              id,
+              currentPage + 1,
+              pageSize
+            )
+          )
         )
       )
       .subscribe({

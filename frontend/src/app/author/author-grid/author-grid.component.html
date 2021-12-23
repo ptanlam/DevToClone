@@ -1,13 +1,13 @@
 <nb-spinner *ngIf="loading"></nb-spinner>
 
 <div fxLayout="column" fxLayoutGap="20px">
-  <fm-author-banner *ngIf="author" [author]="author" [isUser]="isUser || false">
+  <fm-author-banner *ngIf="author" [author]="author" [isUser]="isUser">
   </fm-author-banner>
 
   <nb-list *ngIf="postList" nbInfiniteList class="posts-container" fxLayout="column"
     fxLayoutGap="10px" [threshold]="500" (bottomThreshold)="fetchNext.emit()">
     <nb-list-item *ngFor="let post of postList">
-      <sm-post-card [post]="post" style="width: 100%;"></sm-post-card>
+      <sm-post-card [post]="post" style="width: 100%;" [belongToUser]="isUser"></sm-post-card>
     </nb-list-item>
   </nb-list>
 </div>

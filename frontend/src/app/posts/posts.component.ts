@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { of, switchMap, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { PaginationMeta, Post } from '../models';
 import { PostsService } from './posts.service';
 
@@ -18,6 +19,8 @@ import { PostsService } from './posts.service';
 export class PostsComponent {
   postList: Post[] = [];
   loading = false;
+  prevTerm?: string;
+
   private _paginationMeta: PaginationMeta = {
     currentPage: -1,
     pageSize: 10,
@@ -27,25 +30,35 @@ export class PostsComponent {
 
   constructor(
     private readonly _postService: PostsService,
-    private readonly _toastrService: NbToastrService
+    private readonly _toastrService: NbToastrService,
+    private readonly _route: ActivatedRoute
   ) {}
 
   fetchNext() {
     const { currentPage, pageSize } = this._paginationMeta;
 
-    of(true)
+    this._route.queryParams
       .pipe(
         tap(() => (this.loading = true)),
-        switchMap(() => this._postService.fetchList(currentPage + 1, pageSize))
+        switchMap(({ term }) =>
+          this._postService.fetchList(currentPage + 1, pageSize, term).pipe(
+            tap(({ body, headers }) => {
+              if (this.prevTerm !== term) {
+                this.prevTerm = term;
+                this.postList = [...(body || [])];
+              } else {
+                this.postList = [...this.postList, ...(body || [])];
+              }
+
+              this._paginationMeta = {
+                ...JSON.parse(headers.get('x-pagination') || ''),
+              };
+              this.loading = false;
+            })
+          )
+        )
       )
       .subscribe({
-        next: ({ body, headers }) => {
-          this.postList = [...this.postList, ...(body || [])];
-          this._paginationMeta = {
-            ...JSON.parse(headers.get('x-pagination') || ''),
-          };
-          this.loading = false;
-        },
         error: (err) => {
           this.loading = false;
           this._toastrService.danger(err.message);

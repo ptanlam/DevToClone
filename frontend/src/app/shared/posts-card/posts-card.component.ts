@@ -8,6 +8,7 @@ import { Post } from '../../models';
 })
 export class PostsCardComponent {
   @Input() post!: Post;
+  @Input() belongToUser!: boolean;
 
   constructor() {}
 }
