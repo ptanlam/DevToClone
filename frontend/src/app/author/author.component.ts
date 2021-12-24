@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { combineLatest, iif, map, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, iif, map, switchMap, tap } from 'rxjs';
 import { selectAuthUser } from '../auth/state';
 import { AuthorService } from '../author.service';
 import { PaginationMeta, Post } from '../models';

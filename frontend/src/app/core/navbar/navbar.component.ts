@@ -47,6 +47,7 @@ export class NavbarComponent implements OnInit {
       .subscribe({
         next: () => {
           this._store.dispatch(authActions.logout());
+          this._router.navigate(['/posts']);
         },
       });
 
