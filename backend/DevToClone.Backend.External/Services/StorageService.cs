@@ -17,37 +17,29 @@ namespace DevToClone.Backend.External.Services
         public StorageService(IAmazonS3 s3Client, IOptions<StorageSettings> settings)
         {
             _settings = settings.Value;
-            _s3Client = s3Client ??
-                throw new ArgumentNullException(nameof(s3Client));
+            _s3Client = s3Client ?? throw new ArgumentNullException(nameof(s3Client));
         }
 
         public async Task<UploadedFileResponse> Upload(IFormFile file)
         {
-            try
+            var objectKey = Guid.NewGuid().ToString();
+            await using var inputStream = file.OpenReadStream();
+            var putObjectRequest = new PutObjectRequest()
             {
-                var objectKey = Guid.NewGuid().ToString();
-                using var inputStream = file.OpenReadStream();
-                var putObjectRequest = new PutObjectRequest()
-                {
-                    InputStream = inputStream,
-                    Key = objectKey,
-                    BucketName = _settings.BucketName,
-                    ContentType = file.ContentType,
-                };
+                InputStream = inputStream,
+                Key = objectKey,
+                BucketName = _settings.BucketName,
+                ContentType = file.ContentType,
+            };
 
-                var response = await _s3Client.PutObjectAsync(putObjectRequest);
-                return new UploadedFileResponse()
-                {
-                    Url = GenereatePreSignedUrl(objectKey)
-                };
-            }
-            catch (System.Exception)
+            await _s3Client.PutObjectAsync(putObjectRequest);
+            return new UploadedFileResponse()
             {
-                throw;
-            }
+                Url = GeneratePreSignedUrl(objectKey)
+            };
         }
 
-        private string GenereatePreSignedUrl(string objectKey)
+        private string GeneratePreSignedUrl(string objectKey)
         {
             var request = new GetPreSignedUrlRequest
             {

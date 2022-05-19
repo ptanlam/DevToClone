@@ -7,8 +7,7 @@ using MediatR;
 
 namespace DevToClone.Backend.Application.Features.Posts.Commands.UpdatePost
 {
-    public class UpdatePostCommandHandler :
-        IRequestHandler<UpdatePostCommand, Post>
+    public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, Post>
     {
         private readonly IPostRepository _postRepository;
 

@@ -1,10 +1,10 @@
 # Devto clone
 
-An application taking inspiration from https://dev.to for learning Angular and ASP.NET purpose.
+An application taking inspiration from [Devto](https://dev.to) for learning **`Angular`** and **`ASP.NET`** purpose.
 
 ## Prerequisites
 
-- Docker.
+1. Docker.
 
 ## Instructions
 

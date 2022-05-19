@@ -19,20 +19,20 @@ export class FilesService {
     const formData = new FormData();
     formData.append('file', file);
 
-    // return zip(
-    //   this._store.select(selectAuthStatus),
-    //   this._store.select(selectAuthAccessToken)
-    // ).pipe(
-    //   filter(([isAuthenticated]) => isAuthenticated),
-    //   switchMap(([_, accessToken]) =>
-    //     this._httpClient
-    //       .post<{ url: string }>(this._serviceUrl, formData, {
-    //         headers: { authorization: `Bearer ${accessToken}` },
-    //       })
-    //       .pipe(map(({ url }) => `![](${url})`))
-    //   )
-    // );
+    return zip(
+      this._store.select(selectAuthStatus),
+      this._store.select(selectAuthAccessToken)
+    ).pipe(
+      filter(([isAuthenticated]) => isAuthenticated),
+      switchMap(([_, accessToken]) =>
+        this._httpClient
+          .post<{ url: string }>(this._serviceUrl, formData, {
+            headers: { authorization: `Bearer ${accessToken}` },
+          })
+          .pipe(map(({ url }) => `![](${url})`))
+      )
+    );
 
-    return of('hi');
+    // return of('hi');
   };
 }

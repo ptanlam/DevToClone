@@ -33,8 +33,7 @@ namespace DevToClone.Backend.Application.Features.Posts.Commands.CreateNewPost
         {
             var validator = new CreateNewPostCommandValidator();
 
-            var validationResult = await validator.ValidateAsync(
-                request, cancellationToken);
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid) return null;
 
             var author = await _authenticationService.GetUserById(request.AuthorId);
