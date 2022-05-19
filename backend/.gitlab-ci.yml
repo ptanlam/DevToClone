@@ -1,0 +1,61 @@
+variables:
+  BUILD_IMAGE: mcr.microsoft.com/dotnet/sdk:5.0
+  PROJECT_NAME: DevToClone.Backend.API
+  UNIT_TEST_PROJECT_NAME: DevToClone.Backend.UnitTesting
+  CI_DOCKER_IMAGE_NAME: $CI_REGISTRY/$CI_PROJECT_ROOT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA
+
+stages:
+  - build
+  - test
+  - build and push docker image
+
+build-project:
+  stage: build
+  image: $BUILD_IMAGE
+  script:
+    - echo "Start building project"
+    - cd ./src/$PROJECT_NAME
+    - dotnet restore --interactive
+    - dotnet build --configuration Release
+    - dotnet publish --configuration Release --output ../../publish/
+    - echo "Project built successfully"
+  artifacts:
+    paths:
+      - ./publish/*
+    expire_in: 1 hour
+  only:
+    refs:
+      - /[fF]eature\/[a-zA-Z]+/
+    changes:
+      - src/**/*
+
+unit-tests:
+  stage: test
+  image: $BUILD_IMAGE
+  script:
+    - echo "Start unit testing project"
+    - cd ./tests/$UNIT_TEST_PROJECT_NAME
+    - dotnet test
+    - echo "Finish unit testing project"
+  only:
+    changes:
+      - tests/$UNIT_TEST_PROJECT_NAME/**/*
+    refs:
+      - /[fF]eature\/[a-zA-Z]+/
+
+build-and-push-image-to-docker-registry:
+  image: docker:stable
+  services:
+    - name: docker:18.09.7-dind
+  stage: build and push docker image
+  before_script:
+    - docker info
+    - echo "$CI_BUILD_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+  script:
+    - echo "Build docker image"
+    - docker build -t "$CI_DOCKER_IMAGE_NAME" .
+    - echo "Push docker image $CI_DOCKER_IMAGE_NAME"
+    - docker push "$CI_DOCKER_IMAGE_NAME"
+  only:
+    refs:
+      - main
